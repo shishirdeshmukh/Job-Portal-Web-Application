@@ -1,2 +1,2 @@
-# Job-Portal-Web-ApAplication
+# Job-Portal-Web-Application
 A carrier website
