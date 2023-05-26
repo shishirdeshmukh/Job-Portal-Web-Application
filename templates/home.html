@@ -2,54 +2,36 @@
 <html>
   <head>
     <title>JSPM Carriers</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <style>
+      #banner{
+        height:520px;
+        width: 100%;
+       }
+    </style>
     
-   <style>
-     h1{
-       font-size: 40px;
-       font-family: Roboto;
-       font-weight: normal;
-       text-align: center;
-       color: rgb(50,50,50);
-     }
-
-     .bodytext{
-      font-family: Roboto;
-      color: rgb(80 , 80 ,80)
-     }
-     
-     #banner {
-       width: 100%;
-       height: 360px;
-     }
-
-     h2{
-       font-family: Roboto;
-       font-size: 32px;
-       color: rgb(100,100,100);
-       text-align: center;
-     }
-     #conatiner{
-       max-width: 720px;
-       margin: 0 auto;
-       
-     }
-     
-   </style>
   </head>
   <body>
-    <div id="conatiner">
-    <h1>JSPM Carriers</h1>
-    <img id = "banner" src="https://job-portal-web-application--shishirdeshmukh.repl.co/static/banner.jpg" >
-    <h2> About JSPM </h2>
-    <p>
+    <div class = "container">
+    <h1 class="text-center mt-4 mb-4">JSPM Carriers</h1>
+    <img class = "img-fluid" id = "banner" src="https://job-portal-web-application--shishirdeshmukh.repl.co/static/asap.jpg" >
+    <h2 class="text-center mt-2 mb-4 "> About JSPM </h2>
+    <p class ="lead">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Fermentum iaculis eu non diam phasellus. Mi quis hendrerit dolor magna eget est lorem ipsum. Ut aliquam purus sit amet. Enim ut sem viverra aliquet eget sit amet. Vestibulum lorem sed risus ultricies. Sed vulputate odio ut enim blandit volutpat maecenas. Duis ultricies lacus sed turpis tincidunt id aliquet. Tellus molestie nunc non blandit. Imperdiet nulla malesuada pellentesque elit eget gravida cum sociis natoque. Pulvinar pellentesque habitant morbi tristique senectus et netus et malesuada. Sollicitudin tempor id eu nisl nunc mi ipsum faucibus. In fermentum posuere urna nec tincidunt praesent semper. Mattis rhoncus urna neque viverra justo nec ultrices dui. Diam sit amet nisl suscipit adipiscing. Donec enim diam vulputate ut pharetra sit amet aliquam id.
     </p>
-    <h2>Open Positions</h2>
-    <p>TODO - Show the Jobs Here</p>
-    <div style="text-align: center">
-    <button>Contact Us</button>
+      
+      <h2 class="text-center mt-2 mb-4">Open Positions</h2>
+      <div>
+        {% for job in jobs%}
+        {%include 'jobitem.html'%}
+        {% endfor %}
+      </div>
+    <div class = "text-center">
+    <button class = "btn btn-primary btn-lg">Contact Us</button>
     </div>
-      <p class ="bodytext">
+      <p class ="mt-4">
         Copyright @2023
       </p>
     </div>
