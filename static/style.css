@@ -1,0 +1,38 @@
+
+.contact_container
+{
+    padding: 100px;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: white;
+    
+    background-repeat:h no-repeat;
+    height: 100vh;
+    margin-top:-1.5%;
+    color: black;
+}
+.contact_container h2
+{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 33px;
+    text-align: center;
+   background-color: white;
+    font-family:  'Times New Roman', Times, serif;
+}
+.contact_container .g_map
+{
+  
+    border:10px solid black;
+}
+.contact_container .contact_content
+{
+  background-color: white;
+    padding:10px;
+    font-family:  'Times New Roman', Times, serif;
+}
+.contact_container .contact_content p
+{
+    padding:15px;
+   background-color: white;
+    font-size: 20px;
+    line-height: 25px;
+}
