@@ -13,12 +13,15 @@
   box-sizing: border-box;
 }
 
+.bg-nav{ background: #a8c0ff;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #3f2b96, #a8c0ff);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #3f2b96, #a8c0ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }  
 body {
   margin: 0;
   font-family:'Times New Roman', Times, serif;
   font-size: 22px;
   line-height: 1.5;
-  background-image: url(/static/uploadbg1.jpg);
   background-position: fill;
   background-size: 1570px 720px;
    background-repeat: no-repeat;

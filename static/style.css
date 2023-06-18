@@ -1,9 +1,12 @@
+.bg-nav{background: #3E5151;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #DECBA4, #3E5151);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #DECBA4, #3E5151); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
+}
 .contact_container
 {
     padding: 100px;
     font-family: 'Times New Roman', Times, serif;
-    background-color: white;
     
     background-repeat:h no-repeat;
     height: 100vh;
@@ -15,7 +18,6 @@
     font-family: 'Times New Roman', Times, serif;
     font-size: 33px;
     text-align: center;
-   background-color: white;
     font-family:  'Times New Roman', Times, serif;
 }
 .contact_container .g_map
@@ -25,14 +27,12 @@
 }
 .contact_container .contact_content
 {
-  background-color: white;
     padding:10px;
     font-family:  'Times New Roman', Times, serif;
 }
 .contact_container .contact_content p
 {
     padding:15px;
-   background-color: white;
     font-size: 20px;
     line-height: 25px;
 }
@@ -50,7 +50,7 @@
 .btn-11 {
   -webkit-tap-highlight-color: transparent;
   -webkit-appearance: button;
-  background-color: #000;
+  background-color: #0084ff;
   background-image: none;
   color: #fff;
   cursor: pointer;
