@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 import os
 from database import engine, load_jobs_from_db, load_job_from_db, add_application_to_db, sign_to_app
-from sqlalchemy import text
+from sqlalchemy import text, create_engine
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
@@ -16,8 +16,8 @@ ssl_ca = '/etc/ssl/certs/ca-certificates.crt'  # Path to the SSL CA file
 
 conn = mysql.connector.connect(
   host="aws.connect.psdb.cloud",
-  user="42j57si8qi5blowhzjpb",
-  password="pscale_pw_qmKWpZCWbV8Wt6XQ8RlqEnWctQLPuee1F4M0q66X3cY",
+  user=os.environ['db_user'],
+  password=os.environ['db_pass'],
   database="qwerty",
   ssl_ca=ssl_ca,
 )
