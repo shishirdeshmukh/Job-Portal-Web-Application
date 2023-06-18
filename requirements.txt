@@ -1,4 +1,4 @@
 Flask
 gunicorn
 mysql.connector
-sqlalchemy
+sqlalchemy==1.4.25
