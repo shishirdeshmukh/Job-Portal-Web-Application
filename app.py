@@ -16,8 +16,8 @@ ssl_ca = '/etc/ssl/certs/ca-certificates.crt'  # Path to the SSL CA file
 
 conn = mysql.connector.connect(
   host="aws.connect.psdb.cloud",
-  user="7x5x4inevit5qtex1jel",
-  password="pscale_pw_ts24Sp29N0udGoODuuwtdnF10LoilRpaISiVkxi0EHK",
+  user="42j57si8qi5blowhzjpb",
+  password="pscale_pw_qmKWpZCWbV8Wt6XQ8RlqEnWctQLPuee1F4M0q66X3cY",
   database="qwerty",
   ssl_ca=ssl_ca,
 )

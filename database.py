@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, text
 import traceback
 
-db_connection_string = 'mysql+pymysql://7x5x4inevit5qtex1jel:pscale_pw_ts24Sp29N0udGoODuuwtdnF10LoilRpaISiVkxi0EHK@aws.connect.psdb.cloud/qwerty?charset=utf8mb4'
+db_connection_string = 'mysql+pymysql://42j57si8qi5blowhzjpb:pscale_pw_qmKWpZCWbV8Wt6XQ8RlqEnWctQLPuee1F4M0q66X3cY@aws.connect.psdb.cloud/qwerty?charset=utf8mb4'
 
 engine = create_engine(
   db_connection_string,
