@@ -2,3 +2,6 @@ Flask
 gunicorn
 mysql.connector
 sqlalchemy==1.4.25
+werkzeug.security 
+werkzeug.exceptions
+werkzeug.utils
