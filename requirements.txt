@@ -2,3 +2,6 @@ Flask
 gunicorn
 sqlalchemy==1.4.25
 pymysql==1.0.2
+mysql-connector-python>=8.0.33
+
+mysql-connector-python>=3.11.0

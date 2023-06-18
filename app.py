@@ -16,8 +16,8 @@ ssl_ca = '/etc/ssl/certs/ca-certificates.crt'  # Path to the SSL CA file
 
 conn = mysql.connector.connect(
   host="aws.connect.psdb.cloud",
-  user="eutsqk0p3s6jjosddwtl",
-  password="pscale_pw_6j1bmyBSLOqTfRDGLpPX4LBWxJFAFEIsewySYw4c3cy",
+  user="7x5x4inevit5qtex1jel",
+  password="pscale_pw_ts24Sp29N0udGoODuuwtdnF10LoilRpaISiVkxi0EHK",
   database="qwerty",
   ssl_ca=ssl_ca,
 )
@@ -27,14 +27,14 @@ cursor = conn.cursor()
 
 @app.route("/home")
 def hello_world():
-  try:
-    if 'id' in session:
+  if 'id' in session:
+    try:
       jobs = load_jobs_from_db()
       return render_template('home.html', jobs=jobs)
-    else:
-      return redirect('login.html')
-  except Exception as e:
-    return render_template('error.html', error=str(e))
+    except Exception as e:
+      return render_template('error.html', error=str(e))
+  else:
+    return redirect('login.html')
 
 
 @app.route("/signup")
@@ -95,23 +95,17 @@ def add_user():
 
 @app.route("/job/<id>")
 def showjob(id):
-  try:
-    job = load_job_from_db(id)
-    if job:
-      return render_template('jobpage.html', job=job)
-    else:
-      return render_template('jobnotfound.html')
-  except Exception as e:
-    return render_template('error.html', error=str(e))
+  job = load_job_from_db(id)
+  if job:
+    return render_template('jobpage.html', job=job)
+  else:
+    return render_template('jobnotfound.html')
 
 
 @app.route("/api/job/<id>")
 def show_job_json(id):
-  try:
-    job = load_job_from_db(id)
-    return jsonify(job)
-  except Exception as e:
-    return jsonify({'error': str(e)})
+  job = load_job_from_db(id)
+  return jsonify(job)
 
 
 @app.route("/logout")
@@ -122,15 +116,12 @@ def logout():
 
 @app.route("/job/<id>/apply", methods=['post'])
 def apply_to_job(id):
-  try:
-    data = request.form
-    job = load_job_from_db(id)
-    add_application_to_db(id, data)
-    return render_template('application_submitted.html',
-                           application=data,
-                           job=job)
-  except Exception as e:
-    return render_template('error.html', error=str(e))
+  data = request.form
+  job = load_job_from_db(id)
+  add_application_to_db(id, data)
+  return render_template('application_submitted.html',
+                         application=data,
+                         job=job)
 
 
 @app.route("/upload")
@@ -148,20 +139,17 @@ def upload():
                      secure_filename(file.filename)))
     else:
       return redirect('/upload')
-  except RequestEntityTooLarge:
-    return render_template('error.html',
-                           error='File is Larger than 16 MB Limit')
 
+  except RequestEntityTooLarge:
+    return 'File is Larger than 16 MB Limit'
+    return redirect('/upload')
   return redirect('/')
 
 
 @app.route("/api/jobs")
 def list_jobs():
-  try:
-    jobs = load_jobs_from_db()
-    return jsonify(jobs)
-  except Exception as e:
-    return jsonify({'error': str(e)})
+  jobs = load_jobs_from_db()
+  return jsonify(jobs)
 
 
 @app.route("/contactus")
