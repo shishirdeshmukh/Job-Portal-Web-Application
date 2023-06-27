@@ -21,20 +21,19 @@ conn = mysql.connector.connect(
   database="qwerty",
   ssl_ca=ssl_ca,
 )
-
 cursor = conn.cursor()
 
 
 @app.route("/home")
 def hello_world():
-  if 'id' in session:
-    try:
+  try:
+    if 'id' in session:
       jobs = load_jobs_from_db()
       return render_template('home.html', jobs=jobs)
-    except Exception as e:
-      return render_template('error.html', error=str(e))
-  else:
-    return redirect('login.html')
+    else:
+      return redirect('login.html')
+  except Exception as e:
+    return render_template('error.html', error=str(e))
 
 
 @app.route("/signup")
@@ -73,21 +72,17 @@ def add_user():
     name = request.form.get('uname')
     email = request.form.get('uemail')
     password = request.form.get('upassword')
-
     hashed_password = generate_password_hash(password)
-
     query = """INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES (NULL, %s, %s, %s)"""
     values = (name, email, hashed_password)
 
     cursor.execute(query, values)
     conn.commit()
-
     cursor.execute("""SELECT * FROM `users` WHERE `email` = %s""", (email, ))
     myuser = cursor.fetchall()
     session['id'] = myuser[0][0]
 
     flash("User Registered Successfully")
-
     return redirect('/')
   except Exception as e:
     return render_template('error.html', error=str(e))
