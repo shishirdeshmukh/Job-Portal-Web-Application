@@ -1,8 +1,8 @@
 from sqlalchemy import create_engine, text
 import traceback
 
-
 import os
+
 db_connection_string = os.environ['MY_SQL_DB']
 
 engine = create_engine(
@@ -51,16 +51,3 @@ def add_application_to_db(job_id, data):
     except Exception as e:
       print(f"Error: {e}")
       traceback.print_exc()
-
-
-def sign_to_app(email, name, password):
-  with engine.connect() as conn:
-    query = text(
-      "INSERT INTO Userdata (name, email, password) VALUES (:name, :email, :password)"
-    )
-    try:
-      conn.execute(query, name=name, email=email, password=password)
-      return True
-    except Exception as e:
-      print(f"Error: {e}")
-      return False

@@ -13,7 +13,7 @@
   <body class="bg-nav">
     
     <nav class="navbar">
-      <a href="" class = "navbar-brand text-light">JSPM Carriers</a>
+      <a href="" class = "navbar-brand text-light">JSPM Carriers - User SignUp</a>
     </nav>
   
     <div class="container">
@@ -30,11 +30,16 @@
                 <input type="name" placeholder="Enter Full Name here" class="form-control" name="uname"><br>
                 <label>Email</label><br>
                 <input type="email" placeholder="Enter your Email Address" class="form-control" name="uemail"><br>
+                <label>Mobile No</label><br>
+<input type="tel" placeholder="Enter your Phone Number" class="form-control" name="uphone"><br>
+
                 <label>Password</label><br>
                 <input type="password" placeholder="Enter your Password" class="form-control" name="upassword" ><br>
                 <input type="submit" class="btn btn-primary btn-block btn-lg" value="SignUp"><br>
               </form>
               <p class="mt-2">Already a Member? <a href ="{{ url_for('login') }}">Login now</a></p>
+            <p class="mt-2">Admin? <a href="{{ url_for('admin') }}">Admin Login</a></p>
+            
             </div>
           </div>
     </div>

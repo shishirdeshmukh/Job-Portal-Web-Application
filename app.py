@@ -1,27 +1,76 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for, session, flash
-import mysql.connector
+from sqlalchemy import create_engine, text
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 import os
-from database import engine, load_jobs_from_db, load_job_from_db, add_application_to_db, sign_to_app
-from sqlalchemy import text, create_engine
-from werkzeug.security import generate_password_hash
+import traceback
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config['UPLOAD_DIRECTORY'] = 'uploads/'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.secret_key = os.urandom(24)
 
-ssl_ca = '/etc/ssl/certs/ca-certificates.crt'  # Path to the SSL CA file
+db_connection_string = os.environ['MY_SQL_DB']
+engine = create_engine(
+  db_connection_string,
+  connect_args={"ssl": {
+    "ssl_ca": "/etc/ssl/certs/ca-certificates.crt"
+  }})
 
-conn = mysql.connector.connect(
-  host="aws.connect.psdb.cloud",
-  user=os.environ['db_user'],
-  password=os.environ['db_pass'],
-  database="qwerty",
-  ssl_ca=ssl_ca,
-)
-cursor = conn.cursor()
+
+def load_jobs_from_db():
+  with engine.connect() as conn:
+    result = conn.execute(text("SELECT * FROM jobs"))
+    jobs = []
+    for row in result.all():
+      jobs.append(dict(row._asdict()))  # Convert row to dictionary
+    return jobs
+
+
+def load_job_from_db(id):
+  with engine.connect() as conn:
+    result = conn.execute(
+      text("SELECT * FROM jobs WHERE id = :val"),
+      {"val": id}  # Pass `val` as a parameter dictionary
+    )
+    rows = result.all()
+    if len(rows) == 0:
+      return None
+    else:
+      return dict(rows[0]._asdict())  # Convert row to dictionary
+
+
+def add_application_to_db(job_id, data):
+  with engine.connect() as conn:
+    query = text(
+      "INSERT INTO applications (job_id, full_name, email, linkedin_url, education, work_experience, resume_url) VALUES (:job_id, :full_name, :email, :linkedin_url, :education, :work_experience, :resume_url)"
+    )
+    try:
+      conn.execute(query,
+                   job_id=job_id,
+                   full_name=data['full_name'],
+                   email=data['email'],
+                   linkedin_url=data['linkedin_url'],
+                   education=data['education'],
+                   work_experience=data['work_experience'],
+                   resume_url=data['resume_url'])
+    except Exception as e:
+      print(f"Error: {e}")
+      traceback.print_exc()
+
+
+def sign_to_app(email, name, password):
+  with engine.connect() as conn:
+    query = text(
+      "INSERT INTO Userdata (name, email, password) VALUES (:name, :email, :password)"
+    )
+    try:
+      conn.execute(query, name=name, email=email, password=password)
+      return True
+    except Exception as e:
+      print(f"Error: {e}")
+      return False
 
 
 @app.route("/home")
@@ -36,14 +85,29 @@ def hello_world():
     return render_template('error.html', error=str(e))
 
 
+@app.route("/admin")
+def admin():
+  return render_template('admin.html')
+
+
+@app.route("/admin_home")
+def admin_home():
+  return render_template('admin_home.html')
+
+
+@app.route("/login")
+def login():
+  return render_template('login.html')
+
+
 @app.route("/signup")
 def signup():
   return render_template('signup.html')
 
 
 @app.route("/")
-def login():
-  return render_template('login.html')
+def login1():
+  return render_template('dashboard.html')
 
 
 @app.route("/login_vald", methods=['POST'])
@@ -58,7 +122,27 @@ def login_vald():
     users = cursor.fetchall()
     if len(users) > 0:
       session['id'] = users[0][0]
-      return redirect('/home')
+      return render_template('home.html')
+    else:
+      flash("Wrong Details")
+      return redirect('/')
+  except Exception as e:
+    return render_template('error.html', error=str(e))
+
+
+@app.route("/login_vald2", methods=['POST'])
+def login_vald2():
+  try:
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    cursor.execute(
+      """SELECT * from `admins` WHERE `username` LIKE '{}' AND `password`  LIKE '{}'"""
+      .format(email, password))
+    admin = cursor.fetchall()
+    if len(admin) > 0:
+      session['id'] = admin[0][0]
+      return redirect('/admin_home')
     else:
       flash("Wrong Details")
       return redirect('/')
@@ -71,10 +155,11 @@ def add_user():
   try:
     name = request.form.get('uname')
     email = request.form.get('uemail')
+    phoneno = int(request.form.get('uphone'))  # Convert to integer
     password = request.form.get('upassword')
-    hashed_password = generate_password_hash(password)
-    query = """INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES (NULL, %s, %s, %s)"""
-    values = (name, email, hashed_password)
+
+    query = """INSERT INTO `users` (`id`, `name`, `email`, `phoneno`, `password`) VALUES (NULL, %s, %s, %s, %s)"""
+    values = (name, email, phoneno, password)
 
     cursor.execute(query, values)
     conn.commit()
@@ -83,7 +168,7 @@ def add_user():
     session['id'] = myuser[0][0]
 
     flash("User Registered Successfully")
-    return redirect('/')
+    return redirect('/login')
   except Exception as e:
     return render_template('error.html', error=str(e))
 
@@ -105,7 +190,7 @@ def show_job_json(id):
 
 @app.route("/logout")
 def logout():
-  session.pop('id')
+  session.pop('id', None)
   return redirect('/')
 
 

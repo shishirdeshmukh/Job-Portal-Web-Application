@@ -8,30 +8,16 @@
 
 <link rel="stylesheet" href="{{ url_for('static', filename='style6.css') }}">
 
-    <style> 
-      .bg-nav{background: #FF0099;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #493240, #FF0099);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #493240, #FF0099); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-       }
-
-.mt-100{
-margin-top:120px;
-}
-.mt-90{
-margin-top:100px;
-}
- 
-      
-    </style>
-
     <title>JSPM Carriers</title>
   </head>
   <body class="bg-nav">
     
     <nav class="navbar">
-      <a href="" class = "navbar-brand text-light">JSPM Carriers - User Login</a>
+      <a href="" class = "navbar-brand text-light">JSPM Carriers</a>
     </nav>
+
+
+
 
     <div class="container">
       <div class="row">
@@ -43,14 +29,13 @@ margin-top:100px;
           <div class="card mt-90">
             <div class="card-body">
               <form class="form" method="post" action="/login_vald">
-                <label> Email</label><br>
-                <input type="email" placeholder="Enter your Email Address" class="form-control" name="email"><br>
-                <label>Password</label><br>
-                <input type="password" placeholder="Enter your Password" class="form-control" name="password" ><br>
+                <label> Admin Email</label><br>
+                <input type="email" placeholder="Enter admin Email Address" class="form-control" name="email"><br>
+                <label>Admin Password</label><br>
+                <input type="password" placeholder="Enter admin Password" class="form-control" name="password" ><br>
                 <input type="submit" class="btn btn-primary btn-block btn-lg" value="Login"><br>
               </form>
-              <p class="mt-2">Not a Member? <a href ="{{ url_for('signup') }}"> Create Account</a></p>
-              <p class="mt-2">Admin? <a href="{{ url_for('admin') }}">Admin Login</a></p>
+              <p class="mt-2">Not a Admin? <a href ="{{ url_for('signup') }}"> Create Account</a><a href ="{{ url_for('login') }}">Login now</a></p>
             </div>
           </div>
     </div>

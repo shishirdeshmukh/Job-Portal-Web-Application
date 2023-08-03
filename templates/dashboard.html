@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JSPM Career - Dashboard</title>
+    <style>
+        body {
+            font-family:  'Times New Roman', Times, serif;;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+
+          background: #11998e;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #38ef7d, #11998e);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #38ef7d, #11998e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+          
+
+
+          
+
+
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 70%;
+
+          background: black;
+
+
+          border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+               section {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: whitesmoke;
+            margin-bottom: 10px;
+        }
+
+       
+        a {
+            display: block;
+            text-align: center;
+            padding: 10px 20px;
+            background-color: whitesmoke;
+            color: black;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: background: #a8ff78;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #78ffd6, #a8ff78);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #78ffd6, #a8ff78); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+          <section>
+            <h2>User Account Login</h2>
+                       <a href="{{ url_for('login') }}">User Login</a>
+        </section>
+
+                <section>
+            <h2>User Account SignUp</h2>
+                       <a href="{{ url_for('signup') }}">User Register</a>
+        </section>
+
+        <section>
+            <h2>Admin Account Login</h2>
+             <a href="{{ url_for('admin') }}">Admin Login</a>
+        </section>
+    </div>
+</body>
+
+</html>
