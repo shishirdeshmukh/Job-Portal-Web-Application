@@ -1,76 +1,28 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for, session, flash
-from sqlalchemy import create_engine, text
+import mysql.connector
+import hashlib
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 import os
-import traceback
-from werkzeug.security import generate_password_hash, check_password_hash
+from database import engine, load_jobs_from_db, load_job_from_db, add_application_to_db
+from sqlalchemy import text, create_engine
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 app.config['UPLOAD_DIRECTORY'] = 'uploads/'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.secret_key = os.urandom(24)
 
-db_connection_string = os.environ['MY_SQL_DB']
-engine = create_engine(
-  db_connection_string,
-  connect_args={"ssl": {
-    "ssl_ca": "/etc/ssl/certs/ca-certificates.crt"
-  }})
+ssl_ca = '/etc/ssl/certs/ca-certificates.crt'
 
-
-def load_jobs_from_db():
-  with engine.connect() as conn:
-    result = conn.execute(text("SELECT * FROM jobs"))
-    jobs = []
-    for row in result.all():
-      jobs.append(dict(row._asdict()))  # Convert row to dictionary
-    return jobs
-
-
-def load_job_from_db(id):
-  with engine.connect() as conn:
-    result = conn.execute(
-      text("SELECT * FROM jobs WHERE id = :val"),
-      {"val": id}  # Pass `val` as a parameter dictionary
-    )
-    rows = result.all()
-    if len(rows) == 0:
-      return None
-    else:
-      return dict(rows[0]._asdict())  # Convert row to dictionary
-
-
-def add_application_to_db(job_id, data):
-  with engine.connect() as conn:
-    query = text(
-      "INSERT INTO applications (job_id, full_name, email, linkedin_url, education, work_experience, resume_url) VALUES (:job_id, :full_name, :email, :linkedin_url, :education, :work_experience, :resume_url)"
-    )
-    try:
-      conn.execute(query,
-                   job_id=job_id,
-                   full_name=data['full_name'],
-                   email=data['email'],
-                   linkedin_url=data['linkedin_url'],
-                   education=data['education'],
-                   work_experience=data['work_experience'],
-                   resume_url=data['resume_url'])
-    except Exception as e:
-      print(f"Error: {e}")
-      traceback.print_exc()
-
-
-def sign_to_app(email, name, password):
-  with engine.connect() as conn:
-    query = text(
-      "INSERT INTO Userdata (name, email, password) VALUES (:name, :email, :password)"
-    )
-    try:
-      conn.execute(query, name=name, email=email, password=password)
-      return True
-    except Exception as e:
-      print(f"Error: {e}")
-      return False
+conn = mysql.connector.connect(
+  host="aws.connect.psdb.cloud",
+  user=os.environ['db_user'],
+  password=os.environ['db_pass'],
+  database="qwerty",
+  ssl_ca=ssl_ca,
+)
+cursor = conn.cursor()
 
 
 @app.route("/home")
